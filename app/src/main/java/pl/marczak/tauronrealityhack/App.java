@@ -12,9 +12,10 @@ import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.EstimoteSDK;
 import com.estimote.sdk.Region;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Lukasz Marczak
@@ -34,6 +35,8 @@ public class App extends Application {
 // Optional, debug logging.
         EstimoteSDK.enableDebugLogging(true);
         startMonitoring();
+
+        initFb();
 
     }
 
@@ -89,6 +92,14 @@ public class App extends Application {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notification);
+    }
+
+
+    private void initFb() {
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
     }
 
 }
