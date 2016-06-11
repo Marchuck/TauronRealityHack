@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -46,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     RobotoTextView profileName;
     @Bind(R.id.play_button)
     Button playButton;
+    @Bind(R.id.play2_button)
+    Button musicButton;
+    @Bind(R.id.play3_button)
+    Button resultsButton;
 
     private static final int UNAUTHORIZED = 190;
 
@@ -121,22 +126,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.play_button)
-    public void onClick() {
-        List<QuizQuestion> question = Hawk.get(Constants.QUIZZES);
-        if (null != question){
-            int id = Hawk.get(Constants.QUIZ_ID,0);
-            if (question.size()>id){
+    @OnClick({R.id.play_button, R.id.play2_button, R.id.play3_button})
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.play_button: {
+                List<QuizQuestion> question = Hawk.get(Constants.QUIZZES);
+                if (null != question){
+                    int id = Hawk.get(Constants.QUIZ_ID,0);
+                    if (question.size()>id){
 
-                QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
-            }else{
-                Toast.makeText(this,"Koniec pytań",Toast.LENGTH_LONG).show();
-                int correctAnswers = Hawk.get(Constants.CORRECT_ANSWERS_COUNT);
-                //sendAnswers
+                        QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
+                    }else{
+                        Toast.makeText(this,"End of questions !",Toast.LENGTH_LONG).show();
+                        int correctAnswers = Hawk.get(Constants.CORRECT_ANSWERS_COUNT);
+                        //sendAnswers
+                    }
+                }else{
+                    fetchQuestions();
+                }
+                break;
             }
-        }else{
-            fetchQuestions();
+
+            case R.id.play2_button: {
+                openUrl(1);
+                break;
+            }
+
+            case R.id.play3_button: {
+                Intent intent = new Intent(this, ResultsActivity.class);
+                startActivity(intent);
+                break;
+            }
         }
+
     }
 
     private void fetchQuestions(){
