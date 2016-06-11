@@ -2,10 +2,7 @@ package pl.marczak.tauronrealityhack.networking;
 
 import android.content.Context;
 
-import pl.marczak.tauronrealityhack.model.User;
-import pl.marczak.tauronrealityhack.model.UserData;
 import pl.marczak.tauronrealityhack.util.GsonUtil;
-import pl.marczak.tauronrealityhack.util.PreferencesUtil;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -19,7 +16,7 @@ public class ApiClient {
     private ApiService apiService;
     private Context context;
 
-    private static final String BASE_URL = "http://random.pl";
+    private static final String BASE_URL = "http://10.112.27.101";
 
     private ApiClient(final Context context) {
         this.context = context;
@@ -31,16 +28,6 @@ public class ApiClient {
                     @Override
                     public void intercept(RequestFacade request) {
                         request.addHeader("Accept", "application/json");
-                        UserData userData = PreferencesUtil.getUserData(context);
-                        if (userData != null) {
-                            User user = userData.getUser();
-                            if (user != null) {
-                                String accessToken = user.getAccessToken();
-                                if (accessToken != null) {
-                                    request.addHeader("X-Access-Token", accessToken);
-                                }
-                            }
-                        }
                     }
                 })
                 .build();
