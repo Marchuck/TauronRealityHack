@@ -2,6 +2,8 @@ package pl.marczak.tauronrealityhack.networking;
 
 import android.content.Context;
 
+import java.util.List;
+
 import pl.marczak.tauronrealityhack.model.SectorResponse;
 import pl.marczak.tauronrealityhack.util.GsonUtil;
 import retrofit.Callback;
@@ -46,12 +48,12 @@ public class ApiClient {
         return instance;
     }
 
-    public void getSensor(final Callback<SectorResponse> callback) {
-        apiService.getSensor(new Callback<SectorResponse>() {
+    public void getSensor(final Callback<List<SectorResponse>> callback) {
+        apiService.getSensor(new Callback<List<SectorResponse>>() {
             @Override
-            public void success(SectorResponse sectorResponse, Response response) {
-                if (response.getStatus() >= 200 && response.getStatus() < 400 && sectorResponse != null) {
-                    callback.success(sectorResponse,response);
+            public void success(List<SectorResponse> sectorResponses, Response response) {
+                if (response.getStatus() >= 200 && response.getStatus() < 400 && sectorResponses != null) {
+                    callback.success(sectorResponses,response);
                 } else {
                     callback.failure(null);
                 }

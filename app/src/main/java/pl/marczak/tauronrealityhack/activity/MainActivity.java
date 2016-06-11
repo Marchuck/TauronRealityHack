@@ -18,6 +18,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -52,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         initUser();
         fetchUserFriends();
 
-        onClick();
     }
 
     private void initUser() {
@@ -116,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.play_button)
     public void onClick() {
-        ApiClient.getInstance(this).getSensor(new Callback<SectorResponse>() {
+        ApiClient.getInstance(this).getSensor(new Callback<List<SectorResponse>>() {
             @Override
-            public void success(SectorResponse sectorResponse, Response response) {
+            public void success(List<SectorResponse> sectorResponse, Response response) {
                 L.d("NETWORK " + sectorResponse.toString());
             }
 
