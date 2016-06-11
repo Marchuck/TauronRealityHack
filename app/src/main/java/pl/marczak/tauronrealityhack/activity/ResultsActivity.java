@@ -21,6 +21,10 @@ public class ResultsActivity extends AppCompatActivity {
         aProgressBar = (ProgressBar) findViewById(R.id.progress1);
         bProgressBar = (ProgressBar) findViewById(R.id.progress2);
         cProgressBar = (ProgressBar) findViewById(R.id.progress3);
+
+        setProgressBarLevel(aProgressBar, 20);
+        setProgressBarLevel(bProgressBar,50);
+        setProgressBarLevel(cProgressBar,80);
     }
 
     private void setProgressBarLevel(ProgressBar progressBar, int progress){
