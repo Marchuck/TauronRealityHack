@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.sector)
     TextView sector;
 
+
+    String sectorName;
     private static final int UNAUTHORIZED = 190;
 
     BroadcastReceiver receiver;
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (sector != null)
+                            sectorName = major;
                             sector.setText("SEKTOR " + sectorName(major));
                     }
                 });
@@ -228,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(this, "Koniec pytań", Toast.LENGTH_LONG).show();
                         int correctAnswers = Hawk.get(Constants.CORRECT_ANSWERS_COUNT, 0);
-                        sendAnswers(sector.getText().toString(),correctAnswers);
+                        sendAnswers(sectorName,correctAnswers);
                     }
                 }else{
                     fetchQuestions();
