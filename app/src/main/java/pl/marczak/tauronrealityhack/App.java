@@ -45,6 +45,8 @@ public class App extends Application {
 
     }
 
+    public String lastMajor = "";
+
     private void startMonitoring() {
         beaconManager = new BeaconManager(getApplicationContext());
         // add this below:
@@ -54,6 +56,10 @@ public class App extends Application {
             public void onSectorChanged(String major) {
                 Log.e(TAG, "__________________________");
                 Log.e(TAG, "onSectorChanged: " + major);
+//                lastMajor = "SEKTOR" + major;
+//                Intent intent = new Intent("MAJOR1");
+//                intent.putExtra("MAJOR", major);
+//                sendBroadcast(intent);
                 EventBus.getDefault().post(new SectorDetectedEvent(major));
             }
         };

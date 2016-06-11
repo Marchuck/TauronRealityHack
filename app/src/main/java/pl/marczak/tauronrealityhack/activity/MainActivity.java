@@ -1,8 +1,11 @@
 package pl.marczak.tauronrealityhack.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,12 +20,14 @@ import com.facebook.login.LoginManager;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pl.marczak.tauronrealityhack.App;
 import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
 import pl.marczak.tauronrealityhack.SectorDetectedEvent;
@@ -31,6 +36,8 @@ import pl.marczak.tauronrealityhack.model.User;
 import pl.marczak.tauronrealityhack.model.UserData;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = MainActivity.class.getSimpleName();
+
 
     @Bind(R.id.profile_image)
     ImageView profileImage;
@@ -43,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int UNAUTHORIZED = 190;
 
+    BroadcastReceiver receiver;
+    IntentFilter filter = new IntentFilter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +60,58 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         //initUser();
         fetchUserFriends();
+//        filter.addAction("MAJOR");
+//        receiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                //do something based on the intent's action
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        sector.setText(App.getInstance(MainActivity.this).lastMajor);
+//                    }
+//                });
+//            }
+//        };
+//        registerReceiver(receiver, filter);
 
     }
 
-    public void onEvent(Object o) {
-        if (o instanceof SectorDetectedEvent) {
-            final SectorDetectedEvent event = (SectorDetectedEvent) o;
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (sector != null) sector.setText("Sector " + prettySector(event));
-                }
-
-                private String prettySector(SectorDetectedEvent event) {
-                    return event.major;
-                }
-            });
-        }
+    @Override
+    protected void onResume() {
+        App.getInstance(this).startScan();
+        super.onResume();
     }
+
+    @Override
+    protected void onPause() {
+        App.getInstance(this).stopScan();
+        super.onPause();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        registerReceiver(receiver, filter);
+        super.onDestroy();
+    }
+
+     @Subscribe
+    public void onEvent(final SectorDetectedEvent o) {
+        Log.d(TAG, "onEvent: ");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (sector != null) sector.setText("SECTOR " + prettySector(o));
+            }
+
+            private String prettySector(SectorDetectedEvent event) {
+                return event.major;
+            }
+        });
+
+    }
+
 
     @Override
     protected void onStart() {
@@ -82,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void initUser() {
+    public void initUser() {
         Profile profile = Profile.getCurrentProfile();
-         User singleUser = new User();
+        User singleUser = new User();
 
         singleUser.setFirstName(profile.getFirstName());
         singleUser.setLastName(profile.getLastName());
@@ -113,6 +156,12 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     parseJSON(object);
                 }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        sector.setText(App.getInstance(MainActivity.this).lastMajor);
+                    }
+                });
             }
         });
 
