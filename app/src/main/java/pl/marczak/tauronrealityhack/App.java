@@ -9,17 +9,13 @@ import android.content.Intent;
 import android.support.annotation.DrawableRes;
 import android.util.Log;
 
-import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.EstimoteSDK;
-import com.estimote.sdk.Region;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
-import java.util.List;
-import java.util.UUID;
-
 import pl.marczak.tauronrealityhack.activity.MainActivity;
+import pl.marczak.tauronrealityhack.monitoring.BleHelper;
 
 /**
  * @author Lukasz Marczak
@@ -29,6 +25,7 @@ public class App extends Application {
     public static final String TAG = App.class.getSimpleName();
 
     private BeaconManager beaconManager;
+    private BleHelper ble;
 
     @Override
     public void onCreate() {
@@ -46,36 +43,26 @@ public class App extends Application {
     private void startMonitoring() {
         beaconManager = new BeaconManager(getApplicationContext());
         // add this below:
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+        ble = new BleHelper();
+        ble.sectorCallback = new BleHelper.SectorCallback() {
             @Override
-            public void onServiceReady() {
-                Log.d(TAG, "onServiceReady: " + Thread.currentThread().getName());
-                beaconManager.startMonitoring(new Region(
-                        "monitored region",
-                        UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
-                        13235, 56177));
-
-                beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
-                    @Override
-                    public void onEnteredRegion(Region region, List<Beacon> list) {
-                        Log.d(TAG, "onEnteredRegion: " + Thread.currentThread().getName());
-                        showNotification(
-                                "onEnteredRegion",
-                                "beacons:" + list.size(), android.R.drawable.ic_dialog_info);
-
-                    }
-
-                    @Override
-                    public void onExitedRegion(Region region) {
-                        // could add an "exit" notification too if you want (-:
-                        showNotification(
-                                "onExitedRegion",
-                                "", android.R.drawable.ic_dialog_dialer);
-                    }
-                });
+            public void onSectorChanged(String major) {
+                Log.e(TAG, "__________________________");
+                Log.e(TAG, "onSectorChanged: " + major);
             }
-        });
+        };
 
+    }
+
+
+    public void startScan() {
+        Log.d(TAG, "startScan: ");
+        ble.start(beaconManager);
+    }
+
+    public void stopScan() {
+        Log.d(TAG, "stopScan: ");
+        ble.stop(beaconManager);
     }
 
     public void showNotification(String title, String message, @DrawableRes int resource) {
