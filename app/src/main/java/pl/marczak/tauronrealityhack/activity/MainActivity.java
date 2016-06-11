@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.facebook.AccessToken;
@@ -15,16 +16,16 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
+import pl.marczak.tauronrealityhack.SectorDetectedEvent;
 import pl.marczak.tauronrealityhack.fragment.QuizDialogFragment;
 import pl.marczak.tauronrealityhack.model.User;
 import pl.marczak.tauronrealityhack.model.UserData;
@@ -37,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
     RobotoTextView profileName;
     @Bind(R.id.play_button)
     Button playButton;
+    @Bind(R.id.sector)
+    TextView sector;
 
     private static final int UNAUTHORIZED = 190;
-
 
 
     @Override
@@ -52,17 +54,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onEvent(Object o) {
+        if (o instanceof SectorDetectedEvent) {
+            final SectorDetectedEvent event = (SectorDetectedEvent) o;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (sector != null) sector.setText("Sector " + prettySector(event));
+                }
+
+                private String prettySector(SectorDetectedEvent event) {
+                    return event.major;
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
     private void initUser() {
         Profile profile = Profile.getCurrentProfile();
-
-        User singleUser = new User();
+         User singleUser = new User();
         singleUser.setFirstName(profile.getFirstName());
         singleUser.setLastName(profile.getLastName());
 
 
         UserData user = new UserData();
         user.setUser(singleUser);
-        user.setImageURL(profile.getProfilePictureUri(200,200).toString());
+        user.setImageURL(profile.getProfilePictureUri(200, 200).toString());
 
         fillProfile(user);
     }
@@ -74,20 +103,20 @@ public class MainActivity extends AppCompatActivity {
         GraphRequest request = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                if (response.getError()!=null){
+                if (response.getError() != null) {
                     FacebookServiceException exception = (FacebookServiceException) response.getError().getException();
-                    if (exception.getRequestError().getErrorCode()==UNAUTHORIZED){
+                    if (exception.getRequestError().getErrorCode() == UNAUTHORIZED) {
                         logoutAndGotoLogin();
                     }
                     L.e("MainActivity.onCompleted: ", response.getError().getException());
-                }else{
+                } else {
                     parseJSON(object);
                 }
             }
         });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields","friends");
+        parameters.putString("fields", "friends");
         request.setParameters(parameters);
         request.executeAsync();
 
@@ -95,19 +124,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void parseJSON(JSONObject object) {
         try {
-            L.d("MainActivity.parseJSON all: "+object.toString());
+            L.d("MainActivity.parseJSON all: " + object.toString());
             JSONObject json = object.getJSONObject("friends");
-            L.d("MainActivity.parseJSON friends: "+json.toString());
+            L.d("MainActivity.parseJSON friends: " + json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
 
-
-    private void fillProfile(UserData data){
+    private void fillProfile(UserData data) {
         Picasso.with(this).load(data.getImageURL()).into(profileImage);
-        profileName.setText(data.getUser().getFirstName()+" "+data.getUser().getLastName());
+        profileName.setText(data.getUser().getFirstName() + " " + data.getUser().getLastName());
     }
 
 

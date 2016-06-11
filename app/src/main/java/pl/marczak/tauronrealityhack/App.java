@@ -17,6 +17,8 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.hawk.HawkBuilder;
 import com.orhanobut.hawk.LogLevel;
 
+import org.greenrobot.eventbus.EventBus;
+
 import pl.marczak.tauronrealityhack.activity.MainActivity;
 import pl.marczak.tauronrealityhack.monitoring.BleHelper;
 
@@ -52,6 +54,7 @@ public class App extends Application {
             public void onSectorChanged(String major) {
                 Log.e(TAG, "__________________________");
                 Log.e(TAG, "onSectorChanged: " + major);
+                EventBus.getDefault().post(new SectorDetectedEvent(major));
             }
         };
 
