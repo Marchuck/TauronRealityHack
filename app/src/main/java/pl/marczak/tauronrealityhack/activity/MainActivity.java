@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.SystemRequirementsChecker;
 import com.facebook.AccessToken;
 import com.facebook.FacebookServiceException;
 import com.facebook.GraphRequest;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         ble.start(beaconManager);
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
     }
 
     @Override
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     public static String sectorName(String name) {
         if (name.contains("41504")) return "A";
         else if (name.contains("63534")) return "B";
-        else return "C";//38020
+        else   return "C";//38020
     }
 
     @Subscribe
@@ -217,20 +219,20 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick({R.id.play_button, R.id.play2_button, R.id.play3_button})
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.play_button: {
                 List<QuizQuestion> question = Hawk.get(Constants.QUIZZES);
-                if (null != question){
-                    int id = Hawk.get(Constants.QUIZ_ID,0);
-                    if (question.size()>id){
+                if (null != question) {
+                    int id = Hawk.get(Constants.QUIZ_ID, 0);
+                    if (question.size() > id) {
 
                         QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
-                    }else{
-                        Toast.makeText(this,"End of questions !",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "End of questions !", Toast.LENGTH_LONG).show();
                         int correctAnswers = Hawk.get(Constants.CORRECT_ANSWERS_COUNT);
                         //sendAnswers
                     }
-                }else{
+                } else {
                     fetchQuestions();
                 }
                 break;
@@ -254,10 +256,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void success(List<QuizQuestion> quizQuestions, Response response) {
 
-                for (QuizQuestion quizQuestion:quizQuestions){
-                    L.d("MainActivity.success: "+quizQuestion.toString());
+                for (QuizQuestion quizQuestion : quizQuestions) {
+                    L.d("MainActivity.success: " + quizQuestion.toString());
                 }
-                Hawk.put(Constants.QUIZZES,quizQuestions);
+                Hawk.put(Constants.QUIZZES, quizQuestions);
                 QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
 
             }
