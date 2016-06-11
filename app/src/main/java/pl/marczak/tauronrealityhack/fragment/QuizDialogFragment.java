@@ -18,8 +18,6 @@ import android.widget.Toast;
 import com.linearlistview.LinearListView;
 import com.orhanobut.hawk.Hawk;
 
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -70,13 +68,7 @@ public class QuizDialogFragment extends CustomDialog {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_quiz_dialog, null);
         ButterKnife.bind(this, root);
-        Dialog alertDialog = new Dialog(getActivity()) {
-            @Override
-            public void onBackPressed() {
-
-                Toast.makeText(getContext(), "Wybierz odpowiedź", Toast.LENGTH_LONG).show();
-            }
-        };
+        Dialog alertDialog = new Dialog(getActivity());
 
 
         alertDialog.setCanceledOnTouchOutside(false);
@@ -143,17 +135,6 @@ public class QuizDialogFragment extends CustomDialog {
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
 
 
 

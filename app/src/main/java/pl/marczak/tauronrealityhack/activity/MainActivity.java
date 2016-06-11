@@ -24,13 +24,8 @@ import butterknife.OnClick;
 import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
 import pl.marczak.tauronrealityhack.fragment.QuizDialogFragment;
-import pl.marczak.tauronrealityhack.model.SectorResponse;
 import pl.marczak.tauronrealityhack.model.User;
 import pl.marczak.tauronrealityhack.model.UserData;
-import pl.marczak.tauronrealityhack.networking.ApiClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         initUser();
         fetchUserFriends();
 
-        onClick();
     }
 
     private void initUser() {
