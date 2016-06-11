@@ -8,6 +8,11 @@ public class QuizAnswer {
     String answer;
     boolean isCorrect;
 
+    public QuizAnswer(String answer, boolean isCorrect) {
+        this.answer = answer;
+        this.isCorrect = isCorrect;
+    }
+
     public String getAnswer() {
         return answer;
     }
@@ -22,5 +27,13 @@ public class QuizAnswer {
 
     public void setCorrect(boolean correct) {
         isCorrect = correct;
+    }
+
+    @Override
+    public String toString() {
+        return "QuizAnswer{" +
+                "answer='" + answer + '\'' +
+                ", isCorrect=" + isCorrect +
+                '}';
     }
 }
