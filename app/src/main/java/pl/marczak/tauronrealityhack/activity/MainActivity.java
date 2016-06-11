@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
+import com.estimote.sdk.BeaconManager;
 import com.facebook.AccessToken;
 import com.facebook.FacebookServiceException;
 import com.facebook.GraphRequest;
@@ -25,6 +26,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,6 +39,7 @@ import pl.marczak.tauronrealityhack.fragment.QuizDialogFragment;
 import pl.marczak.tauronrealityhack.model.QuizQuestion;
 import pl.marczak.tauronrealityhack.model.User;
 import pl.marczak.tauronrealityhack.model.UserData;
+import pl.marczak.tauronrealityhack.monitoring.BleHelper;
 import pl.marczak.tauronrealityhack.networking.ApiClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     RobotoTextView profileName;
     @Bind(R.id.play_button)
     Button playButton;
+
     @Bind(R.id.sector)
     TextView sector;
 
@@ -58,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
     BroadcastReceiver receiver;
     IntentFilter filter = new IntentFilter();
+    BleHelper ble;
+    private BeaconManager beaconManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,33 +72,37 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         //initUser();
+        beaconManager = new BeaconManager(getApplicationContext());
+        ble = new BleHelper();
+        ble.sectorCallback = new BleHelper.SectorCallback() {
+            @Override
+            public void onSectorChanged(final String major) {
+                Log.e(TAG, "__________________________");
+                Log.e(TAG, "onSectorChanged: " + major);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (sector != null)
+                            sector.setText("SEKTOR " + sectorName(major));
+                    }
+                });
+            }
+        };
+        ble.start(beaconManager);
+
         fetchUserFriends();
-//        filter.addAction("MAJOR");
-//        receiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                //do something based on the intent's action
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sector.setText(App.getInstance(MainActivity.this).lastMajor);
-//                    }
-//                });
-//            }
-//        };
-//        registerReceiver(receiver, filter);
 
     }
 
     @Override
     protected void onResume() {
-        App.getInstance(this).startScan();
         super.onResume();
+        ble.start(beaconManager);
     }
 
     @Override
     protected void onPause() {
-        App.getInstance(this).stopScan();
+        ble.stop(beaconManager);
         super.onPause();
     }
 
@@ -102,7 +113,13 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-     @Subscribe
+    public static String sectorName(String name) {
+        if (name.contains("41504")) return "A";
+        else if (name.contains("63534")) return "B";
+        else return "C";//38020
+    }
+
+    @Subscribe
     public void onEvent(final SectorDetectedEvent o) {
         Log.d(TAG, "onEvent: ");
         runOnUiThread(new Runnable() {
@@ -200,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
     }
 
-    private void fetchQuestions(){
+    private void fetchQuestions() {
         ApiClient.getInstance(this).getQuestions(new Callback<List<QuizQuestion>>() {
             @Override
             public void success(List<QuizQuestion> quizQuestions, Response response) {
@@ -214,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void sendAnswers(String sector, int numberOfCorrect){
+    private void sendAnswers(String sector, int numberOfCorrect) {
         ApiClient.getInstance(this).sendAnswers(sector, numberOfCorrect, new Callback<List<QuizQuestion>>() {
             @Override
             public void success(List<QuizQuestion> quizQuestions, Response response) {
@@ -237,16 +254,16 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private void openUrl(int sector){
-        switch(sector){
-            case 1:{
+    private void openUrl(int sector) {
+        switch (sector) {
+            case 1: {
                 String url = "https://main-66aaa.firebaseapp.com";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
                 break;
             }
-            case 2:{
+            case 2: {
                 String url = "https://project-8019276755424759634.firebaseapp.com/";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));

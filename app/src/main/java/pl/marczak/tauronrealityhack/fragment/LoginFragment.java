@@ -23,7 +23,6 @@ import java.util.Arrays;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.marczak.tauronrealityhack.App;
 import pl.marczak.tauronrealityhack.LoginResultEvent;
 import pl.marczak.tauronrealityhack.R;
 import pl.marczak.tauronrealityhack.activity.MainActivity;
@@ -90,12 +89,10 @@ public class LoginFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        App.getInstance(getActivity()).startScan();
     }
 
     @Override
     public void onPause() {
-        App.getInstance(getActivity()).stopScan();
         super.onPause();
     }
 

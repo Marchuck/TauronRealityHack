@@ -36,7 +36,7 @@ public class SectorResponse {
     /**
      *
      * @return
-     * The name
+     * The sectorName
      */
     public String getName() {
         return name;
@@ -45,7 +45,7 @@ public class SectorResponse {
     /**
      *
      * @param name
-     * The name
+     * The sectorName
      */
     public void setName(String name) {
         this.name = name;

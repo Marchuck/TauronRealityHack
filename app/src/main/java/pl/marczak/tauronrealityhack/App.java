@@ -17,10 +17,7 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.hawk.HawkBuilder;
 import com.orhanobut.hawk.LogLevel;
 
-import org.greenrobot.eventbus.EventBus;
-
 import pl.marczak.tauronrealityhack.activity.MainActivity;
-import pl.marczak.tauronrealityhack.monitoring.BleHelper;
 
 /**
  * @author Lukasz Marczak
@@ -30,16 +27,13 @@ public class App extends Application {
     public static final String TAG = App.class.getSimpleName();
 
     private BeaconManager beaconManager;
-    private BleHelper ble;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //  App ID & App Token can be taken from App section of Estimote Cloud.
-//        EstimoteSDK.initialize(getApplicationContext(), appId, appToken);
-// Optional, debug logging.
         EstimoteSDK.enableDebugLogging(true);
-        startMonitoring();
+
         initHawk();
         initFb();
 
@@ -47,35 +41,6 @@ public class App extends Application {
 
     public String lastMajor = "";
 
-    private void startMonitoring() {
-        beaconManager = new BeaconManager(getApplicationContext());
-        // add this below:
-        ble = new BleHelper();
-        ble.sectorCallback = new BleHelper.SectorCallback() {
-            @Override
-            public void onSectorChanged(String major) {
-                Log.e(TAG, "__________________________");
-                Log.e(TAG, "onSectorChanged: " + major);
-//                lastMajor = "SEKTOR" + major;
-//                Intent intent = new Intent("MAJOR1");
-//                intent.putExtra("MAJOR", major);
-//                sendBroadcast(intent);
-                EventBus.getDefault().post(new SectorDetectedEvent(major));
-            }
-        };
-
-    }
-
-
-    public void startScan() {
-        Log.d(TAG, "startScan: ");
-        ble.start(beaconManager);
-    }
-
-    public void stopScan() {
-        Log.d(TAG, "stopScan: ");
-        ble.stop(beaconManager);
-    }
 
     public void showNotification(String title, String message, @DrawableRes int resource) {
         Log.d(TAG, "showNotification: ");
