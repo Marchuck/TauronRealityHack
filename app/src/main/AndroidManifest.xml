@@ -13,9 +13,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".activity.MainActivity" >
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" >
+
         </activity>
-        <activity android:name=".activity.StartActivity" >
+        <activity android:name=".activity.StartActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,7 +61,8 @@
 
         <activity
             android:name=".activity.ResultsActivity"
-            android:label="@string/title_activity_results" >
+            android:label="@string/title_activity_results"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
