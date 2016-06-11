@@ -1,7 +1,9 @@
-package pl.marczak.tauronrealityhack;
+package pl.marczak.tauronrealityhack.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import pl.marczak.tauronrealityhack.R;
 
 public class MainActivity extends AppCompatActivity {
 

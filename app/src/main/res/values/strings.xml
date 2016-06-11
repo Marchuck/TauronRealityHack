@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">TauronRealityHack</string>
+
+
+
+    <string name="facebook_app_id">1111480945591799</string>
+    <string name="fb_login_protocol_scheme">fb1111480945591799</string>
     <string name="title_activity_login">LoginActivity</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+
+
 </resources>
