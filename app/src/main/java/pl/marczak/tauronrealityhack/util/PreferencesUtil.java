@@ -10,10 +10,10 @@ import pl.marczak.tauronrealityhack.model.UserData;
 
 public class PreferencesUtil {
 
-    private static final String PREFERENCES_NAME = "co.woolet.PREFERENCES";
+    private static final String PREFERENCES_NAME = "PREFERENCES";
 
-    private static final String USER_DATA = "co.woolet.USER_DATA";
-    private static final String USER_PASSWORD = "co.woolet.USER_PASSWORD";
+    private static final String USER_DATA = "USER_DATA";
+    private static final String USER_PASSWORD = "USER_PASSWORD";
 
 
     public static boolean isUserLoggedIn(Context context) {
