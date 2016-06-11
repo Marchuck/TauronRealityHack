@@ -72,7 +72,25 @@ public class ApiClient {
             @Override
             public void success(List<QuizQuestion> sectorResponses, Response response) {
                 if (response.getStatus() >= 200 && response.getStatus() < 400 && sectorResponses != null) {
-                    callback.success(sectorResponses,response);
+                    callback.success(sectorResponses, response);
+                } else {
+                    callback.failure(null);
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                callback.failure(error);
+            }
+        });
+    }
+
+    public void sendAnswers(String sector, int correct, final Callback<List<QuizQuestion>> callback) {
+        apiService.sendAnswers(sector, correct, new Callback<List<QuizQuestion>>() {
+            @Override
+            public void success(List<QuizQuestion> sectorResponses, Response response) {
+                if (response.getStatus() >= 200 && response.getStatus() < 400 && sectorResponses != null) {
+                    callback.success(sectorResponses, response);
                 } else {
                     callback.failure(null);
                 }
