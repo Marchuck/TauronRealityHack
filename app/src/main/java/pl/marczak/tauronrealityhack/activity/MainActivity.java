@@ -18,18 +18,16 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
-import pl.marczak.tauronrealityhack.model.SectorResponse;
+import pl.marczak.tauronrealityhack.fragment.QuizDialogFragment;
 import pl.marczak.tauronrealityhack.model.User;
 import pl.marczak.tauronrealityhack.model.UserData;
-import pl.marczak.tauronrealityhack.networking.ApiClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         initUser();
         fetchUserFriends();
 
-        onClick();
     }
 
     private void initUser() {
@@ -116,17 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.play_button)
     public void onClick() {
-        ApiClient.getInstance(this).getSensor(new Callback<SectorResponse>() {
-            @Override
-            public void success(SectorResponse sectorResponse, Response response) {
-                L.d("NETWORK " + sectorResponse.toString());
-            }
+        QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
 
-            @Override
-            public void failure(RetrofitError error) {
-                L.d("NETWORK " + error.toString());
-            }
-        });
     }
 
 

@@ -1,22 +1,26 @@
 package pl.marczak.tauronrealityhack.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Admin on 2016-06-11.
  */
 public class SectorResponse {
-    private Integer id;
+    private int id;
     private String name;
-    private List<Object> arenaUsers = new ArrayList<Object>();
+    private String majority;
+
+
+    public SectorResponse(Integer id, String name, String majority) {
+        this.id = id;
+        this.name = name;
+        this.majority = majority;
+    }
 
     /**
      *
      * @return
      * The id
      */
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -25,7 +29,7 @@ public class SectorResponse {
      * @param id
      * The id
      */
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -47,21 +51,11 @@ public class SectorResponse {
         this.name = name;
     }
 
-    /**
-     *
-     * @return
-     * The arenaUsers
-     */
-    public List<Object> getArenaUsers() {
-        return arenaUsers;
+    public String getMajority() {
+        return majority;
     }
 
-    /**
-     *
-     * @param arenaUsers
-     * The arenaUsers
-     */
-    public void setArenaUsers(List<Object> arenaUsers) {
-        this.arenaUsers = arenaUsers;
+    public void setMajority(String majority) {
+        this.majority = majority;
     }
 }

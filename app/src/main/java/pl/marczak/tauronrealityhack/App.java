@@ -13,6 +13,9 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.EstimoteSDK;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.orhanobut.hawk.Hawk;
+import com.orhanobut.hawk.HawkBuilder;
+import com.orhanobut.hawk.LogLevel;
 
 import pl.marczak.tauronrealityhack.activity.MainActivity;
 import pl.marczak.tauronrealityhack.monitoring.BleHelper;
@@ -35,7 +38,7 @@ public class App extends Application {
 // Optional, debug logging.
         EstimoteSDK.enableDebugLogging(true);
         startMonitoring();
-
+        initHawk();
         initFb();
 
     }
@@ -90,6 +93,14 @@ public class App extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
+    }
+
+    private void initHawk() {
+        Hawk.init(this)
+                .setEncryptionMethod(HawkBuilder.EncryptionMethod.NO_ENCRYPTION)
+                .setStorage(HawkBuilder.newSharedPrefStorage(this))
+                .setLogLevel(LogLevel.FULL)
+                .build();
     }
 
     public static App getInstance(Context c) {
