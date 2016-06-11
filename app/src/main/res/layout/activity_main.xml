@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:background="@color/colorPrimary"
 
         android:orientation="horizontal">
@@ -89,6 +90,19 @@
         android:textSize="30sp"
         android:textColor="@drawable/login_button_text"  />
 
+    <Button
+        android:id="@+id/results_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:paddingRight="@dimen/login_margin_big"
+        android:paddingLeft="@dimen/login_margin_big"
+        android:background="@drawable/login_button"
+        android:text="SHOW RESULTS"
+        android:textColor="@drawable/login_button_text"  />
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -127,17 +141,6 @@
             android:text="Chill Stage"
             android:textColor="@drawable/login_button_text"  />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/results_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:paddingRight="@dimen/login_margin_big"
-        android:paddingLeft="@dimen/login_margin_big"
-        android:background="@drawable/login_button"
-        android:text="SHOW RESULTS"
-        android:textColor="@drawable/login_button_text"  />
 
 
 

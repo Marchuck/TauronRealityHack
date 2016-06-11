@@ -18,8 +18,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -114,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.play_button)
     public void onClick() {
         QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
-
     }
 
 
