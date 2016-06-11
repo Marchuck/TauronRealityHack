@@ -2,4 +2,19 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="login_button_lr_margin">50dp</dimen>
+    <dimen name="facebook_button">10dp</dimen>
+    <dimen name="padding_button_login">10dp</dimen>
+    <dimen name="button_shape_radius">4dp</dimen>
+    <dimen name="profile_details_margin">20dp</dimen>
+    <dimen name="profile_image">80dp</dimen>
+    <dimen name="profile_image_margin">16dp</dimen>
+    <dimen name="account_image">25dp</dimen>
+    <dimen name="text_large">24sp</dimen>
+    <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_title">20sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="login_margin">20sp</dimen>
+    <dimen name="login_margin_big">30sp</dimen>
+    <dimen name="button_login_shape_radius">10dp</dimen>
 </resources>
