@@ -23,11 +23,6 @@
             </intent-filter>
         </activity>
 
-<<<<<<< HEAD
-        <service
-            android:name=".BeaconService"
-            android:enabled="true"
-            android:exported="true" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -45,12 +40,10 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-=======
 
 
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
->>>>>>> 4f0460ad1a3e623abf029a94a321edbb8b0edeb6
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
