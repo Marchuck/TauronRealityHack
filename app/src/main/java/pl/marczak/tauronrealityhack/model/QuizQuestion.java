@@ -34,6 +34,15 @@ public class QuizQuestion {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "QuizQuestion{" +
+                "id=" + id +
+                ", question='" + question + '\'' +
+                ", answers=" + answers +
+                '}';
+    }
+
     private List<QuizAnswer> answers = new ArrayList<>();
 
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.facebook.AccessToken;
@@ -14,6 +15,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
+import com.orhanobut.hawk.Hawk;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -24,6 +26,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pl.marczak.tauronrealityhack.Constants;
 import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
 import pl.marczak.tauronrealityhack.fragment.QuizDialogFragment;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Hawk.clear();
         ButterKnife.bind(this);
         initUser();
         fetchUserFriends();
@@ -119,13 +123,32 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.play_button)
     public void onClick() {
-        QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
+        List<QuizQuestion> question = Hawk.get(Constants.QUIZZES);
+        if (null != question){
+            int id = Hawk.get(Constants.QUIZ_ID,0);
+            if (question.size()>id){
+
+                QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
+            }else{
+                Toast.makeText(this,"Koniec pytań",Toast.LENGTH_LONG).show();
+                int correctAnswers = Hawk.get(Constants.CORRECT_ANSWERS_COUNT);
+                //sendAnswers
+            }
+        }else{
+            fetchQuestions();
+        }
     }
 
     private void fetchQuestions(){
         ApiClient.getInstance(this).getQuestions(new Callback<List<QuizQuestion>>() {
             @Override
             public void success(List<QuizQuestion> quizQuestions, Response response) {
+
+                for (QuizQuestion quizQuestion:quizQuestions){
+                    L.d("MainActivity.success: "+quizQuestion.toString());
+                }
+                Hawk.put(Constants.QUIZZES,quizQuestions);
+                QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
 
             }
 

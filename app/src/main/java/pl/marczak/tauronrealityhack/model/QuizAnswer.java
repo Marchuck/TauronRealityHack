@@ -23,4 +23,12 @@ public class QuizAnswer {
     public void setCorrect(boolean correct) {
         isCorrect = correct;
     }
+
+    @Override
+    public String toString() {
+        return "QuizAnswer{" +
+                "answer='" + answer + '\'' +
+                ", isCorrect=" + isCorrect +
+                '}';
+    }
 }

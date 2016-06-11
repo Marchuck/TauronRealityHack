@@ -141,9 +141,10 @@ public class QuizDialogFragment extends CustomDialog {
                         if (currentQuestrion.getAnswers().get(id).isCorrect()){
                             chngeCorrectAnswersNumber(1);
                             Toast.makeText(getContext(), "Prawidłowa odpowiedź", Toast.LENGTH_SHORT).show();
+                            dismiss();
                         }else{
                             Toast.makeText(getContext(), "Błędna odpowiedź", Toast.LENGTH_SHORT).show();
-
+                            dismiss();
                         }
                         adapter.invalidateCheckboxes();
                         isClicked = true;
@@ -162,6 +163,8 @@ public class QuizDialogFragment extends CustomDialog {
     private void chngeCorrectAnswersNumber(int increment){
         int coorrectCount = Hawk.get(Constants.CORRECT_ANSWERS_COUNT,0);
         coorrectCount+=increment;
+
+        coorrectCount = coorrectCount>=0?coorrectCount:0;
 
         Hawk.put(Constants.CORRECT_ANSWERS_COUNT,coorrectCount);
 
