@@ -15,7 +15,6 @@ import com.facebook.FacebookException;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.orhanobut.hawk.Hawk;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,7 +23,6 @@ import java.util.Arrays;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.marczak.tauronrealityhack.Constants;
 import pl.marczak.tauronrealityhack.LoginResultEvent;
 import pl.marczak.tauronrealityhack.R;
 
@@ -95,7 +93,7 @@ public class LoginFragment extends Fragment {
         startFbLoginBtn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Hawk.put(Constants.FACEBOOK_LOGIN_RESULT,loginResult);
+
                 Profile profile = Profile.getCurrentProfile();
 
                 if (null != profile){

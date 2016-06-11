@@ -45,6 +45,7 @@ public class StartActivity extends AppCompatActivity {
 
 
         handler = new Handler();
+
         initActivity();
 
 
@@ -59,6 +60,27 @@ public class StartActivity extends AppCompatActivity {
 
     }
 
+    /*private void initSSH() {
+        PackageInfo info;
+        try {
+            info = getPackageManager().getPackageInfo("pl.marczak.tauronrealityhack", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                //String something = new String(Base64.encodeBytes(md.digest()));
+                Log.e("xzxzhash key", something);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("xzxzname not found", e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("xzxznh an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("xzxzexception", e.toString());
+        }
+    }*/
+
     private void initLogin() {
 
         if (!isLoggedIn()){
@@ -72,6 +94,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private boolean isLoggedIn(){
+
         AccessToken token = AccessToken.getCurrentAccessToken();
 
         L.d("StartActivity.isLoggedIn: "+String.valueOf(token!=null));
