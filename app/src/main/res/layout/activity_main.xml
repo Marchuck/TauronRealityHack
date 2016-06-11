@@ -6,16 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/colorPrimaryDark"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:layout_marginTop="120dp"
-        android:layout_marginLeft="@dimen/profile_details_margin"
-        android:layout_marginRight="@dimen/profile_details_margin"
+
         android:orientation="horizontal">
 
         <FrameLayout
@@ -66,12 +64,9 @@
     </LinearLayout>
 
     <TextView
-        android:layout_marginLeft="@dimen/profile_details_margin"
-        android:layout_marginRight="@dimen/profile_details_margin"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SEKTOR B"
+        android:text="SECTOR B"
         android:background="@color/colorSecondPrimaryDark"
         android:textColor="@android:color/white"
         android:textSize="50sp"
@@ -82,16 +77,68 @@
         android:id="@+id/play_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:layout_marginBottom="50dp"
         android:layout_gravity="center"
         android:paddingRight="@dimen/login_margin_big"
         android:paddingLeft="@dimen/login_margin_big"
-        android:background="@drawable/login_button"
-        android:text="GRAJ"
-        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/play_button"
+        android:text="PLAY"
+        android:textSize="30sp"
         android:textColor="@drawable/login_button_text"  />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GET MUSIC NOW"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorSecondPrimaryDark"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/play2_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:paddingRight="@dimen/login_margin_big"
+            android:paddingLeft="@dimen/login_margin_big"
+            android:background="@drawable/login_button"
+            android:text="Main Stage"
+            android:textColor="@drawable/login_button_text"  />
+
+        <Button
+            android:id="@+id/play3_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:paddingRight="@dimen/login_margin_big"
+            android:paddingLeft="@dimen/login_margin_big"
+            android:background="@drawable/login_button"
+            android:text="Chill Stage"
+            android:textColor="@drawable/login_button_text"  />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/results_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:paddingRight="@dimen/login_margin_big"
+        android:paddingLeft="@dimen/login_margin_big"
+        android:background="@drawable/login_button"
+        android:text="SHOW RESULTS"
+        android:textColor="@drawable/login_button_text"  />
+
 
 
 </LinearLayout>
