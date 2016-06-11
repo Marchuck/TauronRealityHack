@@ -34,7 +34,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.marczak.tauronrealityhack.App;
 import pl.marczak.tauronrealityhack.Constants;
 import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
@@ -80,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Hawk.clear();
         ButterKnife.bind(this);
-        //initUser();
+
         beaconManager = new BeaconManager(getApplicationContext());
         ble = new BleHelper();
         ble.sectorCallback = new BleHelper.SectorCallback() {
@@ -100,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         ble.start(beaconManager);
 
         fetchUserFriends();
+        initUser();
 
     }
 
@@ -188,12 +188,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     parseJSON(object);
                 }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        sector.setText(App.getInstance(MainActivity.this).lastMajor);
-                    }
-                });
             }
         });
 

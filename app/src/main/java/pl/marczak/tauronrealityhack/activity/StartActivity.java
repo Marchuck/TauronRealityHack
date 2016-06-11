@@ -130,6 +130,11 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
     @Override
     protected void onStart() {
         super.onStart();

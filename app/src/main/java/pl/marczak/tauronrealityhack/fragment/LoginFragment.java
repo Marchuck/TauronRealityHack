@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.marczak.tauronrealityhack.LoginResultEvent;
 import pl.marczak.tauronrealityhack.R;
-import pl.marczak.tauronrealityhack.activity.MainActivity;
 
 
 public class LoginFragment extends Fragment {
@@ -112,7 +111,7 @@ public class LoginFragment extends Fragment {
                     L.d("LoginFragment.onSuccess: " + profile.getLinkUri());
                     L.d("LoginFragment.onSuccess: " + profile.getId());
                     L.d("LoginFragment.onSuccess: " + profile.getProfilePictureUri(300, 300));
-                    (  (MainActivity)getActivity()).initUser();
+//                    ((MainActivity) getActivity()).initUser();
                 }
 
                 EventBus.getDefault().post(new LoginResultEvent(true));
