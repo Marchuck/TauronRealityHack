@@ -1,4 +1,4 @@
-package pl.marczak.tauronrealityhack;
+package pl.marczak.tauronrealityhack.fragment;
 
 
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import pl.marczak.tauronrealityhack.R;
 
 
 public class SplashFragment extends Fragment {

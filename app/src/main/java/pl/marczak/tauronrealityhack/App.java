@@ -17,6 +17,8 @@ import com.facebook.appevents.AppEventsLogger;
 
 import java.util.List;
 
+import pl.marczak.tauronrealityhack.activity.MainActivity;
+
 /**
  * @author Lukasz Marczak
  * @since 11.06.16.

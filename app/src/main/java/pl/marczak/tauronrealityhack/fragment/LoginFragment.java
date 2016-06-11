@@ -1,4 +1,4 @@
-package pl.marczak.tauronrealityhack;
+package pl.marczak.tauronrealityhack.fragment;
 
 
 import android.content.Intent;
@@ -24,6 +24,9 @@ import java.util.Arrays;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pl.marczak.tauronrealityhack.Constants;
+import pl.marczak.tauronrealityhack.LoginResultEvent;
+import pl.marczak.tauronrealityhack.R;
 
 
 public class LoginFragment extends Fragment {

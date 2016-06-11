@@ -1,4 +1,4 @@
-package pl.marczak.tauronrealityhack;
+package pl.marczak.tauronrealityhack.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,10 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import pl.marczak.tauronrealityhack.LoginResultEvent;
+import pl.marczak.tauronrealityhack.R;
+import pl.marczak.tauronrealityhack.fragment.LoginFragment;
+import pl.marczak.tauronrealityhack.fragment.SplashFragment;
 
 public class StartActivity extends AppCompatActivity {
 
