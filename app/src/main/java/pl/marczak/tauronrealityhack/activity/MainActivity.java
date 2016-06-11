@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
+import pl.marczak.tauronrealityhack.fragment.QuizDialogFragment;
 import pl.marczak.tauronrealityhack.model.User;
 import pl.marczak.tauronrealityhack.model.UserData;
 
@@ -106,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.login_button)
     public void onClick() {
+        QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
+
     }
 
 

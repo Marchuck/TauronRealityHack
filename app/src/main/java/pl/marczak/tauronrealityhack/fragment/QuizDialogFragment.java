@@ -20,18 +20,12 @@ import com.orhanobut.hawk.Hawk;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.marczak.tauronrealityhack.Constants;
-import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
 import pl.marczak.tauronrealityhack.adapter.QuizAnswersAdapter;
-import pl.marczak.tauronrealityhack.model.AnswerShortResponse;
 import pl.marczak.tauronrealityhack.model.QuizResponse;
 
 
@@ -97,9 +91,7 @@ public class QuizDialogFragment extends CustomDialog {
         super.onActivityCreated(savedInstanceState);
 
         data = Hawk.get(Constants.QUIZ);
-        L.d("QuizDialogFragment.onActivityCreated() " + data.toString());
 
-        shuffle(data);
 
 
         handler = new Handler();
@@ -109,20 +101,10 @@ public class QuizDialogFragment extends CustomDialog {
             adapter = new QuizAnswersAdapter(getActivity(), data);
             mLvQuizDialogAnswerOptions.setAdapter(adapter);
         } else {
-            dismiss();
         }
 
     }
 
-    private void shuffle(QuizResponse data) {
-
-        List<AnswerShortResponse> answersList = data.getAnswers();
-
-        Collections.shuffle(answersList, new Random(System.nanoTime()));
-
-        data.setAnswers(answersList);
-
-    }
 
 
     @Override
