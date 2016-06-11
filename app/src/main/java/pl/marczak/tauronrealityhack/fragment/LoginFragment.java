@@ -23,6 +23,7 @@ import java.util.Arrays;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pl.marczak.tauronrealityhack.App;
 import pl.marczak.tauronrealityhack.LoginResultEvent;
 import pl.marczak.tauronrealityhack.R;
 
@@ -85,8 +86,20 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        App.getInstance(getActivity()).startScan();
+    }
+
+    @Override
+    public void onPause() {
+        App.getInstance(getActivity()).stopScan();
+        super.onPause();
+    }
+
     private void initFbLogin() {
-        startFbLoginBtn.setReadPermissions(Arrays.asList("email","user_friends","public_profile"));
+        startFbLoginBtn.setReadPermissions(Arrays.asList("email", "user_friends", "public_profile"));
         startFbLoginBtn.setFragment(this);
 
         callbackManager = CallbackManager.Factory.create();
@@ -96,11 +109,11 @@ public class LoginFragment extends Fragment {
 
                 Profile profile = Profile.getCurrentProfile();
 
-                if (null != profile){
+                if (null != profile) {
 
-                L.d("LoginFragment.onSuccess: "+profile.getLinkUri());
-                L.d("LoginFragment.onSuccess: "+profile.getId());
-                L.d("LoginFragment.onSuccess: "+profile.getProfilePictureUri(300,300));
+                    L.d("LoginFragment.onSuccess: " + profile.getLinkUri());
+                    L.d("LoginFragment.onSuccess: " + profile.getId());
+                    L.d("LoginFragment.onSuccess: " + profile.getProfilePictureUri(300, 300));
                 }
 
                 EventBus.getDefault().post(new LoginResultEvent(true));
@@ -123,9 +136,9 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (null !=callbackManager){
+        if (null != callbackManager) {
 
-            callbackManager.onActivityResult(requestCode,resultCode,data);
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 

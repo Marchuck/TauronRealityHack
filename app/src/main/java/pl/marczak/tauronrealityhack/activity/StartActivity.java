@@ -114,7 +114,8 @@ public class StartActivity extends AppCompatActivity {
 
 
     private void changeFragment(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.startContainerFl,getFragment()).commit();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.startContainerFl,getFragment()).commitAllowingStateLoss();
     }
 
     private Fragment getFragment(){

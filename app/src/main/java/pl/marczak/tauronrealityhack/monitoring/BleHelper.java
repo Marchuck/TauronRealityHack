@@ -9,12 +9,9 @@ import com.estimote.sdk.Region;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-
 
 
 /**
@@ -24,8 +21,6 @@ import java.util.UUID;
 public class BleHelper {
     public static final String TAG = BleHelper.class.getSimpleName();
     Region region;
-
-
 
     public interface SectorCallback {
         void onSectorChanged(String major);
@@ -61,34 +56,26 @@ public class BleHelper {
                 Log.d(TAG, "onBeaconsDiscovered: ");
                 String mostCommon = pollMostCommon(list);
                 if (sectorCallback != null) sectorCallback.onSectorChanged(mostCommon);
-//                onDiscovered(list);
             }
         });
         beaconManager.startRanging(region);
-
-
-
-    }
-
-    private void onDiscovered(List<Beacon> list) {
-        Log.d(TAG, "onDiscovered: ");
-        String mostCommon = pollMostCommon(list);
-        if (sectorCallback != null) sectorCallback.onSectorChanged(mostCommon);
     }
 
 
     public static synchronized String pollMostCommon(List<Beacon> beacons) {
         if (beacons.size() == 0) return "empty sections";
         List<Integer> list = new ArrayList<>();
-        Set<Integer> majors = new HashSet<>();
+
+        int winnerMAjor = beacons.get(0).getMajor();
 
         String[] collection = new String[beacons.size()];
         for (int k = 0; k < beacons.size(); k++) {
             Beacon b = beacons.get(k);
             int major = b.getMajor();
 //            Log.i(TAG, "major: " + major);
-            collection[k] = String.valueOf(major);
+            collection[k] = String.valueOf(major) + "[ " + b.getRssi() + "]";
 //            majors.add(major);
+            if (b.getMajor() > winnerMAjor) winnerMAjor = b.getMajor();
             list.add(major);
         }
         Map<Integer, Integer> ids = new HashMap<>();
@@ -112,6 +99,6 @@ public class BleHelper {
             }
         }
 
-        return maxMajor;
+        return String.valueOf(winnerMAjor);
     }
 }
