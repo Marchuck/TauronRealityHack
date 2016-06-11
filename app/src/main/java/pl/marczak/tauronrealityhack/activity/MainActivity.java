@@ -3,6 +3,7 @@ package pl.marczak.tauronrealityhack.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
@@ -22,8 +23,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
+import pl.marczak.tauronrealityhack.model.SectorResponse;
 import pl.marczak.tauronrealityhack.model.User;
 import pl.marczak.tauronrealityhack.model.UserData;
+import pl.marczak.tauronrealityhack.networking.ApiClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView profileImage;
     @Bind(R.id.profile_name)
     RobotoTextView profileName;
+    @Bind(R.id.play_button)
+    Button playButton;
 
     private static final int UNAUTHORIZED = 190;
 
@@ -43,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initUser();
         fetchUserFriends();
+
+        onClick();
     }
 
     private void initUser() {
@@ -104,8 +114,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.login_button)
+    @OnClick(R.id.play_button)
     public void onClick() {
+        ApiClient.getInstance(this).getSensor(new Callback<SectorResponse>() {
+            @Override
+            public void success(SectorResponse sectorResponse, Response response) {
+                L.d("NETWORK " + sectorResponse.toString());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                L.d("NETWORK " + error.toString());
+            }
+        });
     }
 
 
@@ -113,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
         LoginManager manager = LoginManager.getInstance();
         manager.logOut();
-        startActivity(new Intent(MainActivity.this,StartActivity.class));
+        startActivity(new Intent(MainActivity.this, StartActivity.class));
         finish();
     }
 }

@@ -2,9 +2,13 @@ package pl.marczak.tauronrealityhack.networking;
 
 import android.content.Context;
 
+import pl.marczak.tauronrealityhack.model.SectorResponse;
 import pl.marczak.tauronrealityhack.util.GsonUtil;
+import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
 /**
@@ -16,7 +20,7 @@ public class ApiClient {
     private ApiService apiService;
     private Context context;
 
-    private static final String BASE_URL = "http://10.112.27.101";
+    private static final String BASE_URL = "http://10.112.27.101:8084";
 
     private ApiClient(final Context context) {
         this.context = context;
@@ -40,5 +44,23 @@ public class ApiClient {
             instance = new ApiClient(context);
         }
         return instance;
+    }
+
+    public void getSensor(final Callback<SectorResponse> callback) {
+        apiService.getSensor(new Callback<SectorResponse>() {
+            @Override
+            public void success(SectorResponse sectorResponse, Response response) {
+                if (response.getStatus() >= 200 && response.getStatus() < 400 && sectorResponse != null) {
+                    callback.success(sectorResponse,response);
+                } else {
+                    callback.failure(null);
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                callback.failure(error);
+            }
+        });
     }
 }
