@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initUser();
+        //initUser();
         fetchUserFriends();
 
     }
@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     private void initUser() {
         Profile profile = Profile.getCurrentProfile();
          User singleUser = new User();
+
         singleUser.setFirstName(profile.getFirstName());
         singleUser.setLastName(profile.getLastName());
 
