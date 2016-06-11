@@ -1,39 +1,36 @@
 package pl.marczak.tauronrealityhack.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Admin on 2016-06-11.
  */
-public class QuizAnswer {
+public class QuizAnswer implements Serializable {
 
-    String answer;
-    boolean isCorrect;
+    String text;
+    boolean correct;
 
-    public QuizAnswer(String answer, boolean isCorrect) {
-        this.answer = answer;
-        this.isCorrect = isCorrect;
-    }
 
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
 
     public boolean isCorrect() {
-        return isCorrect;
+        return correct;
     }
 
     public void setCorrect(boolean correct) {
-        isCorrect = correct;
+        this.correct = correct;
     }
 
-    @Override
-    public String toString() {
-        return "QuizAnswer{" +
-                "answer='" + answer + '\'' +
-                ", isCorrect=" + isCorrect +
-                '}';
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public QuizAnswer(boolean correct, String text) {
+
+        this.correct = correct;
+        this.text = text;
     }
 }

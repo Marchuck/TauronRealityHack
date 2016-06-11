@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.sector)
     TextView sector;
 
+
+    String sectorName;
     private static final int UNAUTHORIZED = 190;
 
     BroadcastReceiver receiver;
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (sector != null)
+                            sectorName = major;
                             sector.setText("SEKTOR " + sectorName(major));
                     }
                 });
@@ -228,28 +231,27 @@ public class MainActivity extends AppCompatActivity {
 
                         QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
                     } else {
-                        Toast.makeText(this, "End of questions !", Toast.LENGTH_LONG).show();
-                        int correctAnswers = Hawk.get(Constants.CORRECT_ANSWERS_COUNT);
-                        //sendAnswers
+                        Toast.makeText(this, "Koniec pytań", Toast.LENGTH_LONG).show();
+                        int correctAnswers = Hawk.get(Constants.CORRECT_ANSWERS_COUNT, 0);
+                        sendAnswers(sectorName,correctAnswers);
                     }
-                } else {
+                }else{
                     fetchQuestions();
                 }
                 break;
             }
+                case R.id.play2_button: {
+                    openUrl(1);
+                    break;
+                }
 
-            case R.id.play2_button: {
-                openUrl(1);
-                break;
-            }
-
-            case R.id.play3_button: {
-                Intent intent = new Intent(this, ResultsActivity.class);
-                startActivity(intent);
-                break;
+                case R.id.play3_button: {
+                    Intent intent = new Intent(this, ResultsActivity.class);
+                    startActivity(intent);
+                    break;
+                }
             }
         }
-    }
 
     private void fetchQuestions() {
         ApiClient.getInstance(this).getQuestions(new Callback<List<QuizQuestion>>() {

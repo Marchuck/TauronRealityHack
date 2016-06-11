@@ -43,7 +43,7 @@ public class QuizAnswersAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        String answer = data.getAnswers().get(position).getAnswer();
+        String answer = data.getAnswers().get(position).getText();
 
 
         final LinearLayout answerLayout = (LinearLayout) inflater.inflate(R.layout.layout_quiz_answer_option, parent, false);
