@@ -18,19 +18,23 @@ import android.widget.Toast;
 import com.linearlistview.LinearListView;
 import com.orhanobut.hawk.Hawk;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.marczak.tauronrealityhack.Constants;
 import pl.marczak.tauronrealityhack.R;
 import pl.marczak.tauronrealityhack.adapter.QuizAnswersAdapter;
-import pl.marczak.tauronrealityhack.model.QuizResponse;
+import pl.marczak.tauronrealityhack.model.QuizQuestion;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class QuizDialogFragment extends CustomDialog {
+
+
 
 
     @Bind(R.id.tvQuizDialogHeader)
@@ -48,7 +52,9 @@ public class QuizDialogFragment extends CustomDialog {
     TextView tvQuizAnswerReaction;
 
     Handler handler;
-    QuizResponse data;
+    List<QuizQuestion> data;
+    QuizQuestion currentQuestrion;
+
     QuizAnswersAdapter adapter;
 
     private boolean isClicked = false;
@@ -56,6 +62,8 @@ public class QuizDialogFragment extends CustomDialog {
     public QuizDialogFragment() {
         // Required empty public constructor
     }
+
+
 
     public static QuizDialogFragment newInstance() {
         return new QuizDialogFragment();
@@ -82,17 +90,31 @@ public class QuizDialogFragment extends CustomDialog {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        data = Hawk.get(Constants.QUIZ);
+        int id = Hawk.get(Constants.QUIZ_ID,0);
+
+
+        data = Hawk.get(Constants.QUIZZES);
+
+        if (data.size()>id){
+            currentQuestrion = data.get(id);
+
+            id+=1;
+            Hawk.put(Constants.QUIZ_ID,id);
 
 
 
-        handler = new Handler();
-        if (null != data) {
-            mTvQuizDialogHeader.setText(data.getHeader());
-            mTvQuizDialogQuestionPrimary.setText(data.getQuestion());
-            adapter = new QuizAnswersAdapter(getActivity(), data);
-            mLvQuizDialogAnswerOptions.setAdapter(adapter);
-        } else {
+            handler = new Handler();
+            if (null != currentQuestrion) {
+                mTvQuizDialogQuestionPrimary.setText(currentQuestrion.getQuestion());
+                adapter = new QuizAnswersAdapter(getActivity(), currentQuestrion);
+                mLvQuizDialogAnswerOptions.setAdapter(adapter);
+            } else {
+
+            }
+
+        }else{
+            Toast.makeText(getActivity(),"Koniec pytań",Toast.LENGTH_LONG).show();
+            dismiss();
         }
 
     }
@@ -115,10 +137,18 @@ public class QuizDialogFragment extends CustomDialog {
             case R.id.tvQuizDialogSendAnswer:
                 if (!isClicked) {
                     if (null != adapter && adapter.getCheckedAnswerId() != -1) {
-                        putAnswer();
+                        int id = adapter.getCheckedAnswerId();
+                        if (currentQuestrion.getAnswers().get(id).isCorrect()){
+                            chngeCorrectAnswersNumber(1);
+                            Toast.makeText(getContext(), "Prawidłowa odpowiedź", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getContext(), "Błędna odpowiedź", Toast.LENGTH_SHORT).show();
+
+                        }
                         adapter.invalidateCheckboxes();
                         isClicked = true;
-                        Toast.makeText(getContext(), "Wysyłam odpowiedź", Toast.LENGTH_SHORT).show();
+
+
 
                     } else {
                         Toast.makeText(getContext(), "Wybierz odpowiedź", Toast.LENGTH_LONG).show();
@@ -129,10 +159,15 @@ public class QuizDialogFragment extends CustomDialog {
         }
     }
 
-    private void putAnswer() {
+    private void chngeCorrectAnswersNumber(int increment){
+        int coorrectCount = Hawk.get(Constants.CORRECT_ANSWERS_COUNT,0);
+        coorrectCount+=increment;
 
+        Hawk.put(Constants.CORRECT_ANSWERS_COUNT,coorrectCount);
 
     }
+
+
 
 
 

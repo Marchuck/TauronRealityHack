@@ -16,4 +16,7 @@ public class Constants {
     public static final String FACEBOOK_LOGIN_RESULT = "facebook login result";
 
     public static final java.lang.String QUIZ = "quiz";
+    public static final java.lang.String QUIZ_ID = "quiz id";
+    public static final java.lang.String QUIZZES = "quizzes";
+    public static final java.lang.String CORRECT_ANSWERS_COUNT = "correct answers count";
 }

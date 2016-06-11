@@ -3,6 +3,7 @@ package pl.marczak.tauronrealityhack.activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,8 +33,13 @@ import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
 import pl.marczak.tauronrealityhack.SectorDetectedEvent;
 import pl.marczak.tauronrealityhack.fragment.QuizDialogFragment;
+import pl.marczak.tauronrealityhack.model.QuizQuestion;
 import pl.marczak.tauronrealityhack.model.User;
 import pl.marczak.tauronrealityhack.model.UserData;
+import pl.marczak.tauronrealityhack.networking.ApiClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -192,7 +198,34 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.play_button)
     public void onClick() {
         QuizDialogFragment.newInstance().show(getSupportFragmentManager(), null);
+    }
 
+    private void fetchQuestions(){
+        ApiClient.getInstance(this).getQuestions(new Callback<List<QuizQuestion>>() {
+            @Override
+            public void success(List<QuizQuestion> quizQuestions, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
+
+    private void sendAnswers(String sector, int numberOfCorrect){
+        ApiClient.getInstance(this).sendAnswers(sector, numberOfCorrect, new Callback<List<QuizQuestion>>() {
+            @Override
+            public void success(List<QuizQuestion> quizQuestions, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 
 
@@ -202,5 +235,24 @@ public class MainActivity extends AppCompatActivity {
         manager.logOut();
         startActivity(new Intent(MainActivity.this, StartActivity.class));
         finish();
+    }
+
+    private void openUrl(int sector){
+        switch(sector){
+            case 1:{
+                String url = "https://main-66aaa.firebaseapp.com";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+            }
+            case 2:{
+                String url = "https://project-8019276755424759634.firebaseapp.com/";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+            }
+        }
     }
 }

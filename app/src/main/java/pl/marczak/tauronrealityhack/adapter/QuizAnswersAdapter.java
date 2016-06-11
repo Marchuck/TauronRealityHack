@@ -14,21 +14,21 @@ import java.util.List;
 
 import pl.marczak.tauronrealityhack.L;
 import pl.marczak.tauronrealityhack.R;
-import pl.marczak.tauronrealityhack.model.QuizResponse;
+import pl.marczak.tauronrealityhack.model.QuizQuestion;
 
 /**
  * Created by jpluta on 11.04.16.
  */
 public class QuizAnswersAdapter extends ArrayAdapter<String> {
 
-    QuizResponse data;
+    QuizQuestion data;
     private LayoutInflater inflater;
     Context mContext;
 
     List<CheckBox> answersCheckboxes = new ArrayList<>();
 
 
-    public QuizAnswersAdapter(Context context, QuizResponse data) {
+    public QuizAnswersAdapter(Context context, QuizQuestion data) {
         super(context, R.layout.layout_quiz_answer_option);
         this.mContext = context;
         inflater = LayoutInflater.from(mContext);
@@ -74,7 +74,7 @@ public class QuizAnswersAdapter extends ArrayAdapter<String> {
         for (CheckBox a: answersCheckboxes){
             if (a.isChecked()){
                 L.d("QuizAnswersAdapter.getCheckedAnswer() "+answersCheckboxes.indexOf(a));
-                return data.getAnswers().get(answersCheckboxes.indexOf(a)).getId();
+                return answersCheckboxes.indexOf(a);
             }
         }
         return -1;
@@ -86,5 +86,6 @@ public class QuizAnswersAdapter extends ArrayAdapter<String> {
             c.setFocusable(false);
         }
     }
+
 
 }
