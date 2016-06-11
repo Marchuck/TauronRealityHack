@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorSecondPrimaryDark"
         android:gravity="center"
-        android:text="SECTOR B"
+        android:text="SEARCHNIG.."
         android:textColor="@android:color/white"
         android:textSize="50sp" />
 
