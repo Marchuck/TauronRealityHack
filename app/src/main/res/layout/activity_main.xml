@@ -53,17 +53,11 @@
                 android:text="NAME"
                 android:textSize="@dimen/text_medium"
                 app:fontFamily="roboto"
-                app:textWeight="medium" />
+                app:textWeight="medium"
+                android:layout_marginLeft="12dp"
+                />
 
-            <com.devspark.robototextview.widget.RobotoTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|top"
-                android:text="Jan Kowalski"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_small"
-                app:fontFamily="roboto"
-                app:textWeight="medium" />
+
 
         </LinearLayout>
 

@@ -108,13 +108,13 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onCancel() {
-                EventBus.getDefault().post(new LoginResultEvent(true));
+                EventBus.getDefault().post(new LoginResultEvent(false));
 
             }
 
             @Override
             public void onError(FacebookException error) {
-                EventBus.getDefault().post(new LoginResultEvent(true));
+                EventBus.getDefault().post(new LoginResultEvent(false));
 
             }
         });

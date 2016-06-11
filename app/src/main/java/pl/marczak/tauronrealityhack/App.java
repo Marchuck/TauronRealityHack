@@ -17,6 +17,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
 import java.util.List;
+import java.util.UUID;
 
 import pl.marczak.tauronrealityhack.activity.MainActivity;
 
